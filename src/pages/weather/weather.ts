@@ -11,6 +11,7 @@ import { NavController } from 'ionic-angular';
 export class WeatherPage {
   city: String;
   state: String;
+  weather: any;
 
   constructor(
     public navCtrl: NavController,
@@ -21,7 +22,7 @@ export class WeatherPage {
 
   ngOnInit() {
     this.weatherService.getWeather(this.city, this.state).subscribe(weather => {
-      console.log(weather);
+      this.weather = weather.current_observation;
     });
   }
 
