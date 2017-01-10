@@ -9,8 +9,7 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'weather.html'
 })
 export class WeatherPage {
-  city: String;
-  state: String;
+  zmw: any
   weather: any;
   searchStr: String;
   results: any;
@@ -18,14 +17,17 @@ export class WeatherPage {
   constructor(
     public navCtrl: NavController,
     private weatherService: WeatherService) {
-    this.city = 'Boston';
-    this.state = 'MA';
   }
 
   ngOnInit() {
-    this.weatherService.getWeather(this.city, this.state).subscribe(weather => {
+    this.getDefaultLocation();
+    this.weatherService.getWeather(this.zmw).subscribe(weather => {
       this.weather = weather.current_observation;
     });
+  }
+
+  getDefaultLocation() {
+    this.zmw = '10001.11.99999';
   }
 
   getQuery() {
@@ -35,4 +37,11 @@ export class WeatherPage {
       });
   }
 
+  chooseLocation(location) {
+    this.results = [];
+    this.weatherService.getWeather(location.zmw)
+      .subscribe(weather => {
+        this.weather = weather.current_observation;
+      });
+  }
 }
